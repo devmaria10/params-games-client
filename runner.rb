@@ -1,9 +1,19 @@
 require 'unirest'
 
-print "Give me your name:"
-user_name = gets.chomp
+solved = false
 
-response = Unirest.get("http://localhost:3000/url/name_url?name=#{user_name}")
-data = response.body
+while !solved
+  system "clear"
+  print "Give me your guess: "
+  user_guess = gets.chomp
 
-puts JSON.pretty_generate(data)
+  response = Unirest.get("http://localhost:3000/guess_segment/#{user_guess}")
+  data = response.body
+
+  if data["message"] == "You Win!!!!"
+    solved = true
+  end
+
+  puts JSON.pretty_generate(data)
+  x = gets.chomp
+end
